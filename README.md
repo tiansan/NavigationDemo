@@ -48,3 +48,38 @@
    }
 
 ```
+
+在MainAcitivty中使用：
+```kotlin
+
+   class MainActivity : AppCompatActivity() {
+
+       private lateinit var appBarConfiguration: AppBarConfiguration
+       private lateinit var navController: NavController
+
+       override fun onCreate(savedInstanceState: Bundle?) {
+           super.onCreate(savedInstanceState)
+           setContentView(R.layout.activity_main)
+           navController = Navigation.findNavController(this, R.id.garden_nav_fragment)
+           appBarConfiguration = AppBarConfiguration(navController.graph, drawer_layout)
+
+           setSupportActionBar(toolbar)
+           setupActionBarWithNavController(navController, drawer_layout)
+
+           navigation_view.setupWithNavController(navController)
+       }
+
+       override fun onSupportNavigateUp(): Boolean {
+           return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+       }
+
+       override fun onBackPressed() {
+           if (drawer_layout.isDrawerOpen(Gravity.START)) {
+               drawer_layout.closeDrawer(Gravity.START)
+           } else {
+               super.onBackPressed()
+           }
+       }
+   }
+
+```
